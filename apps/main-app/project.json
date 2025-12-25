@@ -1,0 +1,10 @@
+{
+  "name": "main-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/main-app/src",
+  "tags": ["scope:frontend", "type:app", "framework:nextjs"],
+  "targets": {},
+  "implicitDependencies": ["ui", "types", "utils", "hooks", "api-client", "auth"]
+}
+

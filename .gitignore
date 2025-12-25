@@ -1,0 +1,79 @@
+# Node modules
+node_modules/
+
+# Build / output directories
+dist/
+build/
+out/
+bin/
+obj/
+.next/
+.turbo/
+
+# Temp / cache
+.temp/
+*.tmp
+.vite_opt_cache/
+.vscode/
+.vscode/extensions.json
+.idea/
+*.iml
+logs/
+*.log
+test-results/
+coverage/
+*.coverage
+*.lcov
+.nx/installation
+.nx/cache
+.nx/workspace-data
+
+# Env files
+.env
+.env.local
+.env.production
+.env.development
+apps/backend-api/.env
+env/
+venv/
+ENV/
+*.local
+
+# System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backup / swap files
+*~
+*.bak
+*.swp
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# C / C++ / build
+CMakeFiles/
+CMakeCache.txt
+*.o
+*.exe
+
+# Python
+*.pyc
+__pycache__/
+
+# Editor / workspace files
+*.user
+*.code-workspace
+
+# Legacy and miscellaneous folders
+_Legacy/
+_Misc/
+
+# Lockfiles (optional)
+# pnpm-lock.yaml
+# yarn.lock
+# package-lock.json

@@ -1,0 +1,23 @@
+# Legacy poly-repo apps (renamed to avoid confusion with apps/ folder)
+legacy-admin-portal
+legacy-vendor-dashboard
+
+# Other legacy folders
+shadcn-ui
+the_bazaar
+
+# Custom legacy & misc folders
+_Legacy
+_Misc
+
+# Build artifacts and dependencies
+node_modules
+dist
+.next
+.turbo
+
+# Ignore build/artifacts inside legacy & misc folders
+_Legacy/**/dist
+_Legacy/**/node_modules
+_Misc/**/dist
+_Misc/**/node_modules

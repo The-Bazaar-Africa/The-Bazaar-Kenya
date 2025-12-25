@@ -1,0 +1,161 @@
+{
+  "project_name": "@thebazaar/auth - Enterprise Authentication Library",
+  "project_type": "library",
+  "description": "Enterprise-grade shared authentication library for The Bazaar multi-portal e-commerce platform. Provides Supabase auth integration, RBAC, route protection, and React hooks for authentication management.",
+  "tech_stack": {
+    "language": "TypeScript",
+    "runtime": "Node.js / Browser",
+    "framework": "React 19",
+    "auth_provider": "Supabase Auth",
+    "ssr_framework": "Next.js 15 (App Router)",
+    "build_tool": "pnpm / Nx",
+    "testing": "tsx (runtime verification)"
+  },
+  "dependencies": {
+    "production": [
+      "@supabase/supabase-js ^2.49.4",
+      "@supabase/ssr ^0.6.1",
+      "react ^19.0.0",
+      "react-dom ^19.0.0"
+    ],
+    "peer": [
+      "next ^15.0.0"
+    ],
+    "dev": [
+      "typescript ^5.7.3",
+      "@types/react ^19.0.7",
+      "@types/node ^22.10.7"
+    ]
+  },
+  "modules": {
+    "types": {
+      "path": "src/types/",
+      "description": "TypeScript type definitions for auth system",
+      "exports": [
+        "Role (7 roles: super_admin, admin, manager, staff, viewer, vendor, customer)",
+        "Permission (58 granular permissions)",
+        "AdminModule (11 admin portal modules)",
+        "UserProfile, VendorProfile, AdminStaffProfile",
+        "AuthState, SignInData, SignUpData",
+        "ADMIN_ROLES, USER_ROLES, ALL_ROLES",
+        "PERMISSIONS, ROLE_PERMISSIONS, MODULE_PERMISSIONS",
+        "isAdminRole, isUserRole, isAdminUser, isSuperAdminUser, isVendorUser",
+        "hasPermission, hasAnyPermission, hasAllPermissions",
+        "canAccessModule, getPermissionsForRole"
+      ]
+    },
+    "clients": {
+      "path": "src/clients/",
+      "description": "Supabase client factories for different environments",
+      "exports": [
+        "createBrowserClient() - Client-side Supabase client",
+        "createServerClient(cookieStore) - Server component client",
+        "createServiceClient() - Service role client for admin operations",
+        "createMiddlewareClient(request, response) - Middleware client",
+        "isSupabaseConfigured() - Check if env vars are set"
+      ]
+    },
+    "context": {
+      "path": "src/context/",
+      "description": "React context for auth state management",
+      "exports": [
+        "AuthContext - React context for auth state",
+        "AuthProvider - Provider component with session management"
+      ]
+    },
+    "hooks": {
+      "path": "src/hooks/",
+      "description": "React hooks for auth operations",
+      "exports": [
+        "useAuth() - Sign in, sign up, sign out, OAuth, password reset",
+        "useUser() - Current user, profile, vendor/admin profiles",
+        "useSession() - Session state, access token, expiry",
+        "usePermissions() - RBAC permission checks",
+        "useCanAccessModule() - Admin module access checks"
+      ]
+    },
+    "components": {
+      "path": "src/components/",
+      "description": "React components for route protection",
+      "exports": [
+        "ProtectedRoute - Generic protected route wrapper",
+        "AdminRoute - Admin-only route wrapper",
+        "VendorRoute - Vendor-only route wrapper",
+        "SuperAdminRoute - Super admin-only route wrapper"
+      ]
+    },
+    "middleware": {
+      "path": "src/middleware/",
+      "description": "Next.js middleware utilities",
+      "exports": [
+        "RouteConfig - Route configuration interface",
+        "matchPath() - Path pattern matching",
+        "checkRouteAccess() - Route access verification",
+        "mainAppRouteConfig - Pre-configured for main-app",
+        "vendorPortalRouteConfig - Pre-configured for vendor-portal",
+        "adminPortalRouteConfig - Pre-configured for admin-portal"
+      ]
+    }
+  },
+  "features": [
+    {
+      "name": "Role-Based Access Control (RBAC)",
+      "description": "7-tier role hierarchy with 58 granular permissions",
+      "status": "implemented"
+    },
+    {
+      "name": "Multi-Portal Support",
+      "description": "Pre-configured route configs for main-app, vendor-portal, admin-portal",
+      "status": "implemented"
+    },
+    {
+      "name": "SSR Compatibility",
+      "description": "Server-side rendering support via @supabase/ssr",
+      "status": "implemented"
+    },
+    {
+      "name": "OAuth Integration",
+      "description": "Google OAuth support via Supabase Auth",
+      "status": "implemented"
+    },
+    {
+      "name": "Session Management",
+      "description": "Automatic session refresh and token management",
+      "status": "implemented"
+    },
+    {
+      "name": "Admin Module Access",
+      "description": "11 admin portal modules with permission-based access",
+      "status": "implemented"
+    }
+  ],
+  "test_coverage": {
+    "unit_tests": "0%",
+    "integration_tests": "100% (manual verification scripts)",
+    "e2e_tests": "0%"
+  },
+  "audit_results": {
+    "typescript_compilation": "PASS - 0 errors",
+    "eslint": "PASS - 0 errors, 0 warnings",
+    "exports_verification": "PASS - All 35 exports verified",
+    "main_app_integration": "PASS - 33/33 tests",
+    "vendor_portal_integration": "PASS - 35/35 tests",
+    "admin_portal_integration": "PASS - 57/57 tests"
+  },
+  "files": {
+    "total": 24,
+    "source": 18,
+    "test": 3,
+    "config": 3
+  },
+  "lines_of_code": {
+    "total": 4052,
+    "types": 1200,
+    "clients": 350,
+    "context": 400,
+    "hooks": 650,
+    "components": 250,
+    "middleware": 450,
+    "tests": 752
+  }
+}

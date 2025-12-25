@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "baseUrl": ".",
+    "paths": {
+      "@tbk/api-client": ["libs/api-client/src/index.ts"],
+      "@tbk/api-client/*": ["libs/api-client/src/*"],
+      "@tbk/types": ["libs/types/src/index.ts"],
+      "@tbk/types/*": ["libs/types/src/*"],
+      "@tbk/ui": ["libs/ui/src/index.ts"],
+      "@tbk/ui/*": ["libs/ui/src/*"],
+      "@tbk/utils": ["libs/utils/src/index.ts"],
+      "@tbk/utils/*": ["libs/utils/src/*"],
+      "@tbk/hooks": ["libs/hooks/src/index.ts"],
+      "@tbk/hooks/*": ["libs/hooks/src/*"],
+      "@tbk/auth": ["libs/auth/src/index.ts"],
+      "@tbk/auth/*": ["libs/auth/src/*"],
+      "@tbk/database": ["libs/database/src/index.ts"],
+      "@tbk/database/*": ["libs/database/src/*"],
+      "@tbk/config": ["libs/config/src/index.ts"],
+      "@tbk/config/*": ["libs/config/src/*"]
+    }
+  }
+}
