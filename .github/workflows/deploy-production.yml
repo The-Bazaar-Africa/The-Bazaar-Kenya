@@ -1,0 +1,201 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App to deploy'
+        required: true
+        type: choice
+        options:
+          - all
+          - main-app
+          - admin-portal
+          - vendor-portal
+          - backend-api
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      main-app: ${{ steps.changes.outputs.main-app }}
+      admin-portal: ${{ steps.changes.outputs.admin-portal }}
+      vendor-portal: ${{ steps.changes.outputs.vendor-portal }}
+      backend-api: ${{ steps.changes.outputs.backend-api }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            main-app:
+              - 'apps/main-app/**'
+              - 'libs/**'
+            admin-portal:
+              - 'apps/admin-portal/**'
+              - 'libs/**'
+            vendor-portal:
+              - 'apps/vendor-portal/**'
+              - 'libs/**'
+            backend-api:
+              - 'apps/backend-api/**'
+              - 'libs/**'
+
+  deploy-main-app:
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.main-app == 'true' ||
+      github.event.inputs.app == 'main-app' ||
+      github.event.inputs.app == 'all'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://thebazaar.ke
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx build main-app --configuration=production
+
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_MAIN_APP }}
+          vercel-args: '--prod'
+          working-directory: ./dist/apps/main-app
+
+  deploy-admin-portal:
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.admin-portal == 'true' ||
+      github.event.inputs.app == 'admin-portal' ||
+      github.event.inputs.app == 'all'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://admin.thebazaar.ke
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx build admin-portal --configuration=production
+
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
+          vercel-args: '--prod'
+          working-directory: ./dist/apps/admin-portal
+
+  deploy-vendor-portal:
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.vendor-portal == 'true' ||
+      github.event.inputs.app == 'vendor-portal' ||
+      github.event.inputs.app == 'all'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://vendor.thebazaar.ke
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx build vendor-portal --configuration=production
+
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_VENDOR }}
+          vercel-args: '--prod'
+          working-directory: ./dist/apps/vendor-portal
+
+  deploy-backend-api:
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.backend-api == 'true' ||
+      github.event.inputs.app == 'backend-api' ||
+      github.event.inputs.app == 'all'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://api.thebazaar.ke
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v3
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx build backend-api --configuration=production
+
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@main
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: backend-api
+
+  notify-slack:
+    needs: [deploy-main-app, deploy-admin-portal, deploy-vendor-portal, deploy-backend-api]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

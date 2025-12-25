@@ -1,0 +1,83 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1' # Weekly Monday 6 AM UTC
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - name: Run audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+  codeql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      
+      - name: Check licenses
+        run: npx license-checker --production --failOn "GPL;AGPL;LGPL;CPAL"
+        continue-on-error: true

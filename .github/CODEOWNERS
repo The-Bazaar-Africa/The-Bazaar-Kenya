@@ -1,0 +1,60 @@
+# The Bazaar Kenya - Code Ownership & Review Requirements
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global ownership - core platform team reviews everything
+* @The-Bazaar-Africa/core-platform
+
+# Frontend Applications
+/apps/main-app/ @The-Bazaar-Africa/frontend @The-Bazaar-Africa/product
+/apps/admin-portal/ @The-Bazaar-Africa/frontend @The-Bazaar-Africa/core-platform
+/apps/vendor-portal/ @The-Bazaar-Africa/frontend @The-Bazaar-Africa/core-platform
+
+# Backend & API
+/apps/backend-api/ @The-Bazaar-Africa/core-platform @The-Bazaar-Africa/devops
+/libs/api-client/ @The-Bazaar-Africa/core-platform @The-Bazaar-Africa/frontend
+
+# Database & Data Layer
+/libs/database/ @The-Bazaar-Africa/core-platform @The-Bazaar-Africa/devops
+/libs/types/ @The-Bazaar-Africa/core-platform
+/migrations/ @The-Bazaar-Africa/core-platform @The-Bazaar-Africa/devops
+
+# Authentication & Security
+/libs/auth/ @The-Bazaar-Africa/core-platform @The-Bazaar-Africa/security
+
+# Frontend Libraries & Hooks
+/libs/ui/ @The-Bazaar-Africa/frontend
+/libs/hooks/ @The-Bazaar-Africa/frontend
+/libs/utils/ @The-Bazaar-Africa/core-platform
+
+# Configuration & Package Management
+/packages/ @The-Bazaar-Africa/core-platform
+/.github/ @The-Bazaar-Africa/devops @The-Bazaar-Africa/security
+/scripts/ @The-Bazaar-Africa/devops
+*.yml @The-Bazaar-Africa/devops
+*.yaml @The-Bazaar-Africa/devops
+
+# Configuration Files
+tsconfig.base.json @The-Bazaar-Africa/core-platform
+eslint.config.js @The-Bazaar-Africa/core-platform
+nx.json @The-Bazaar-Africa/core-platform
+pnpm-workspace.yaml @The-Bazaar-Africa/core-platform
+
+# Documentation
+/docs/ @The-Bazaar-Africa/product @The-Bazaar-Africa/core-platform
+README.md @The-Bazaar-Africa/product @The-Bazaar-Africa/core-platform
+
+# Release & Versioning
+CHANGELOG.md @The-Bazaar-Africa/core-platform
+package.json @The-Bazaar-Africa/core-platform
+pnpm-lock.yaml @The-Bazaar-Africa/core-platform
+
+# DevOps & Deployment
+Dockerfile* @The-Bazaar-Africa/devops
+.dockerignore @The-Bazaar-Africa/devops
+.github/workflows/ @The-Bazaar-Africa/devops
+docker-compose.* @The-Bazaar-Africa/devops
+
+# Security & Compliance
+SECURITY.md @The-Bazaar-Africa/security
+.gitignore @The-Bazaar-Africa/security
+.env.* @The-Bazaar-Africa/devops @The-Bazaar-Africa/security

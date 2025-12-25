@@ -1,0 +1,72 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+title: "[FEATURE] "
+labels: ["enhancement", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share your feature idea!
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: Target App
+      options:
+        - main-app (Customer)
+        - admin-portal
+        - vendor-portal
+        - backend-api
+        - Shared libraries
+        - New app/service
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this solve?
+      placeholder: As a [user type], I want [goal] so that [benefit]
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should this work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Other approaches you've thought about
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Business Priority
+      options:
+        - Critical (Revenue impact)
+        - High (Key feature)
+        - Medium (Nice to have)
+        - Low (Future consideration)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Implementation Scope
+      options:
+        - label: Requires database changes
+        - label: Requires API changes
+        - label: Requires UI changes
+        - label: Requires third-party integration

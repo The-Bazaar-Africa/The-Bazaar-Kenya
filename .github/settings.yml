@@ -1,0 +1,125 @@
+# Repository settings - managed via GitHub Settings App
+# https://github.com/probot/settings
+
+repository:
+  name: The-Bazaar-Kenya
+  description: "The Bazaar Kenya - E-commerce marketplace platform"
+  homepage: https://thebazaar.ke
+  topics:
+    - ecommerce
+    - marketplace
+    - nextjs
+    - fastify
+    - supabase
+    - typescript
+    - nx-monorepo
+  private: true
+  has_issues: true
+  has_projects: true
+  has_wiki: false
+  has_downloads: true
+  default_branch: main
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: true
+  allow_auto_merge: true
+  delete_branch_on_merge: true
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+labels:
+  - name: bug
+    color: d73a4a
+    description: Something isn't working
+  - name: enhancement
+    color: a2eeef
+    description: New feature or request
+  - name: documentation
+    color: 0075ca
+    description: Improvements or additions to documentation
+  - name: triage
+    color: ffffff
+    description: Needs triage
+  - name: priority:critical
+    color: b60205
+    description: Critical priority
+  - name: priority:high
+    color: d93f0b
+    description: High priority
+  - name: priority:medium
+    color: fbca04
+    description: Medium priority
+  - name: priority:low
+    color: 0e8a16
+    description: Low priority
+  - name: app:main-app
+    color: 1d76db
+    description: Main customer app
+  - name: app:admin-portal
+    color: 5319e7
+    description: Admin portal
+  - name: app:vendor-portal
+    color: 006b75
+    description: Vendor portal
+  - name: app:backend-api
+    color: b4a7d6
+    description: Backend API
+  - name: dependencies
+    color: 0366d6
+    description: Dependency updates
+  - name: automated
+    color: ededed
+    description: Automated PR
+  - name: security
+    color: ee0701
+    description: Security related
+  - name: breaking-change
+    color: d93f0b
+    description: Breaking change
+  - name: needs-review
+    color: fbca04
+    description: Needs code review
+  - name: wip
+    color: fef2c0
+    description: Work in progress
+
+teams:
+  - name: core-team
+    permission: admin
+  - name: frontend-team
+    permission: push
+  - name: backend-team
+    permission: push
+  - name: devops-team
+    permission: push
+  - name: security-team
+    permission: push
+  - name: qa-team
+    permission: triage
+
+environments:
+  - name: development
+    wait_timer: 0
+    reviewers: []
+    deployment_branch_policy:
+      protected_branches: false
+      custom_branches:
+        - develop
+        - feature/*
+  - name: staging
+    wait_timer: 0
+    reviewers:
+      - type: Team
+        name: core-team
+    deployment_branch_policy:
+      protected_branches: false
+      custom_branches:
+        - develop
+        - release/*
+  - name: production
+    wait_timer: 5
+    reviewers:
+      - type: Team
+        name: core-team
+    deployment_branch_policy:
+      protected_branches: true

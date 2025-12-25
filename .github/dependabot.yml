@@ -1,0 +1,52 @@
+version: 2
+updates:
+  # NPM dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Africa/Nairobi"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "The-Bazaar-Africa/devops-team"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "deps"
+    groups:
+      production-deps:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@types/*"
+          - "eslint*"
+          - "prettier*"
+          - "jest*"
+          - "@testing-library/*"
+      dev-deps:
+        patterns:
+          - "@types/*"
+          - "eslint*"
+          - "prettier*"
+          - "jest*"
+          - "@testing-library/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    reviewers:
+      - "The-Bazaar-Africa/devops-team"
+    labels:
+      - "github-actions"
+      - "automated"
+    commit-message:
+      prefix: "ci"
